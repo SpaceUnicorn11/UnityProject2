@@ -10,8 +10,10 @@ public class Controls : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Vector3 Force = new(0,0, Input.mousePosition.x - _previousMousePosition.x);
-            Player.AddForce(Force.normalized * Speed, ForceMode.Impulse);
+            Vector3 Direction = (Input.mousePosition - _previousMousePosition).normalized;
+            Vector3 NewPosition = Vector3.zero;
+            NewPosition.z = Direction.x;
+            Player.AddForce(NewPosition * Speed, ForceMode.Acceleration);
         }
         _previousMousePosition = Input.mousePosition;
     }
