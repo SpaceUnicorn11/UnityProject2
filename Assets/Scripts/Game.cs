@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    public LevelMovement Level;
 
-    public void StopLevel()
+
+    public void Defeat()
     {
-        Level.Stop = true;
+
     }
-    public void MoveLevel()
+
+    public void Victory()
     {
-        Level.Stop = false;
+
     }
 
     void Start()

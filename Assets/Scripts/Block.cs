@@ -8,4 +8,10 @@ public class Block : MonoBehaviour
     {
         Difficulty = Random.Range(0, 50);
     }
+
+    private void Update()
+    {
+        if (Difficulty == 0)
+        Destroy(this.gameObject);
+    }
 }
