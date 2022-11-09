@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public TextMeshPro SegmentCounter;
     private List<Transform> segments = new List<Transform>();
     private List<Vector3> positions = new List<Vector3>();
+    public Text ScoreText;
+    private int Score = 0;
 
     void AddSegment()
     {
@@ -23,10 +25,6 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.TryGetComponent(out Finish finish))
-        {
-            Game.Victory();
-        } else
         if (collision.collider.TryGetComponent(out Block block))
         {
             Head.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -35,6 +33,7 @@ public class Player : MonoBehaviour
             {
                 block.Difficulty--;
                 DestroySegment();
+                Score++;
             }
             if (block.Difficulty == 0 && segments.Count > 0)
             {
@@ -46,17 +45,26 @@ public class Player : MonoBehaviour
                 Destroy(Head.gameObject);
                 Game.Defeat();
             }
-        } else
+            ScoreText.text = Score.ToString();
+        }
+        else
         if (collision.collider.TryGetComponent(out Food food))
         {
             for (int i = 0; i < food.FoodValue; i++)
             {
                 AddSegment();
+                Score++;
             }
             food.FoodValue = 0;
+            ScoreText.text = Score.ToString();
         }
+    }
 
-
+    public void ReachFinish()
+    {
+        Head.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        Head.GetComponent<Controls>().enabled = false;
+        Game.Victory();
     }
 
     void DestroySegment()

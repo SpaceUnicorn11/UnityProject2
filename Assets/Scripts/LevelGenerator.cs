@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
@@ -25,7 +23,7 @@ public class LevelGenerator : MonoBehaviour
             }
 
         }
-        GameObject finish = Instantiate(Finish,transform);
+        GameObject finish = Instantiate(Finish, transform);
         finish.transform.localPosition = new Vector3(-DistanceBetweenWalls * (WallsCount + 1), 0, 0);
         TrackStart.localScale = new Vector3(WallsCount * 5 + 5, 1, 1);
     }
