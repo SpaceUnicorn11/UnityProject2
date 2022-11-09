@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private List<Vector3> positions = new List<Vector3>();
     public Text ScoreText;
     private int Score = 0;
+    public ParticleSystem DeathParticles;
+    public ParticleSystem VictoryParticles;
 
     void AddSegment()
     {
@@ -33,6 +35,7 @@ public class Player : MonoBehaviour
             {
                 block.Difficulty--;
                 DestroySegment();
+                
                 Score++;
             }
             if (block.Difficulty == 0 && segments.Count > 0)
@@ -50,6 +53,8 @@ public class Player : MonoBehaviour
         else
         if (collision.collider.TryGetComponent(out Food food))
         {
+            AudioSource audioSource = GetComponent<AudioSource>();
+            audioSource.Play();
             for (int i = 0; i < food.FoodValue; i++)
             {
                 AddSegment();
@@ -65,10 +70,12 @@ public class Player : MonoBehaviour
         Head.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Head.GetComponent<Controls>().enabled = false;
         Game.Victory();
+        VictoryParticles.Play();
     }
 
     void DestroySegment()
     {
+        DeathParticles.Play();
         Destroy(segments[0].gameObject);
         segments.RemoveAt(0);
         positions.RemoveAt(1);
